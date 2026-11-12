@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /editor/
+Disallow: /_next/
+Disallow: /admin/
+
+# Sitemap
+Sitemap: https://kaghazonline.com/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1

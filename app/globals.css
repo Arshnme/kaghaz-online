@@ -1,0 +1,762 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* RTL Support */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .prose {
+  text-align: right;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+::-webkit-scrollbar-corner {
+  background: #f1f5f9;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+/* Smooth transitions */
+* {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Focus styles */
+.focus-ring:focus {
+  outline: 2px solid #001d51;
+  outline-offset: 2px;
+}
+
+/* Text selection */
+::selection {
+  background-color: #001d51;
+  color: white;
+}
+
+::-moz-selection {
+  background-color: #001d51;
+  color: white;
+}
+
+/* Line clamp utilities */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* Persian number support */
+.persian-numbers {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* Editor specific styles */
+.editor-content {
+  font-family: var(--font-vazirmatn), system-ui, sans-serif;
+  line-height: 1.7;
+  direction: auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.editor-content:focus {
+  outline: none;
+}
+
+/* Drag and drop styles */
+.dragging {
+  opacity: 0.6;
+  transform: rotate(2deg) scale(1.02);
+  z-index: 1000;
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .responsive-text {
+    font-size: 0.875rem;
+  }
+
+  .responsive-padding {
+    padding: 1rem;
+  }
+
+  .responsive-margin {
+    margin: 0.5rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .card-hover:hover {
+    border: 2px solid #001d51;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Loading skeleton */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #001d51, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass morphism */
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Bubble Menu Styles */
+.tippy-box[data-theme~='light-border'] {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  max-width: 90vw;
+  /* Prevent overflow on mobile */
+}
+
+.tippy-box[data-theme~='light-border'] .tippy-arrow {
+  color: white;
+}
+
+.tippy-box[data-theme~='light-border'] .tippy-arrow:before {
+  border-color: #e5e7eb;
+}
+
+/* Bubble menu responsive adjustments */
+@media (max-width: 640px) {
+  .tippy-box[data-theme~='light-border'] {
+    max-width: 95vw;
+    font-size: 0.875rem;
+  }
+
+  .tippy-box[data-theme~='light-border'] .flex-wrap {
+    gap: 0.25rem;
+  }
+}
+
+/* Editor Selection Styles */
+.ProseMirror ::selection {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.ProseMirror ::-moz-selection {
+  background-color: #3b82f6;
+  color: white;
+}
+
+/* Complete override for TipTap editor lists and blockquotes */
+.ProseMirror {
+  /* Ensure proper list display */
+}
+
+/* Force list styles to work properly */
+.ProseMirror ul {
+  list-style-type: disc !important;
+  margin: 1rem 0 !important;
+  padding-inline-start: 2rem !important;
+  padding-inline-end: 0 !important;
+  display: block !important;
+}
+
+.ProseMirror ol {
+  list-style-type: decimal !important;
+  margin: 1rem 0 !important;
+  padding-inline-start: 2rem !important;
+  padding-inline-end: 0 !important;
+  display: block !important;
+}
+
+.ProseMirror li {
+  display: list-item !important;
+  margin: 0.5rem 0 !important;
+  padding: 0 !important;
+  list-style-position: outside !important;
+}
+
+.ProseMirror li p {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: inline !important;
+}
+
+/* Nested lists */
+.ProseMirror ul ul {
+  list-style-type: circle !important;
+  margin: 0.5rem 0 !important;
+  padding-inline-start: 1.5rem !important;
+  padding-inline-end: 0 !important;
+}
+
+.ProseMirror ul ul ul {
+  list-style-type: square !important;
+}
+
+.ProseMirror ol ol {
+  list-style-type: lower-alpha !important;
+  margin: 0.5rem 0 !important;
+  padding-inline-start: 1.5rem !important;
+  padding-inline-end: 0 !important;
+}
+
+.ProseMirror ol ol ol {
+  list-style-type: lower-roman !important;
+}
+
+/* Blockquote styles */
+.ProseMirror blockquote {
+  border-right: 4px solid #3b82f6 !important;
+  border-left: none !important;
+  margin: 1.5rem 0 !important;
+  padding: 1rem 1.5rem !important;
+  background-color: #f1f5f9 !important;
+  font-style: italic !important;
+  color: #475569 !important;
+  border-radius: 0.5rem !important;
+  position: relative !important;
+  display: block !important;
+}
+
+.ProseMirror blockquote p {
+  margin: 0 !important;
+  line-height: 1.7 !important;
+  color: inherit !important;
+}
+
+.ProseMirror blockquote p:not(:last-child) {
+  margin-bottom: 0.75rem !important;
+}
+
+/* Quote decoration */
+.ProseMirror blockquote::before {
+  content: '❝';
+  font-size: 2rem;
+  color: #94a3b8;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  line-height: 1;
+  font-family: serif;
+}
+
+/* Override any conflicting prose styles */
+.prose .ProseMirror ul,
+.prose .ProseMirror ol {
+  list-style-type: inherit !important;
+  margin: 1rem 0 !important;
+  padding-inline-start: 2rem !important;
+  padding-inline-end: 0 !important;
+}
+
+.prose .ProseMirror li {
+  display: list-item !important;
+  margin: 0.5rem 0 !important;
+  list-style-position: outside !important;
+}
+
+.prose .ProseMirror blockquote {
+  border-right: 4px solid #3b82f6 !important;
+  border-left: none !important;
+  margin: 1.5rem 0 !important;
+  padding: 1rem 1.5rem !important;
+  background-color: #f1f5f9 !important;
+  font-style: italic !important;
+}
+
+/* RTL specific styles */
+/* RTL specific styles - handled by logical properties now */
+/* But we need to handle explicit left alignment */
+.ProseMirror ul[style*="text-align: left"],
+.ProseMirror ol[style*="text-align: left"] {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+.ProseMirror ul[style*="text-align: right"],
+.ProseMirror ol[style*="text-align: right"] {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+[dir="rtl"] .ProseMirror blockquote {
+  border-right: 4px solid #3b82f6 !important;
+  border-left: none !important;
+}
+
+[dir="rtl"] .ProseMirror blockquote::before {
+  right: 0.5rem !important;
+  left: auto !important;
+}
+
+/* Ensure proper spacing and display */
+.ProseMirror>* {
+  margin-bottom: 0.75rem;
+}
+
+.ProseMirror>*:last-child {
+  margin-bottom: 0;
+}
+
+/* Fix any potential conflicts with Tailwind prose */
+.prose-lg .ProseMirror ul,
+.prose-lg .ProseMirror ol {
+  margin: 1rem 0 !important;
+}
+
+.prose-lg .ProseMirror li {
+  margin: 0.5rem 0 !important;
+}
+
+.prose-lg .ProseMirror blockquote {
+  margin: 1.5rem 0 !important;
+}
+
+/* ========================================= */
+/* PUBLIC VIEW STYLES - For document display */
+/* ========================================= */
+
+/* Public document content styles (without ProseMirror class) */
+/* Public document content styles (without ProseMirror class) */
+.document-content ul,
+.prose ul:not(.ProseMirror ul) {
+  list-style-type: disc !important;
+  margin: 1rem 0 !important;
+  padding-inline-start: 2rem !important;
+  padding-inline-end: 0 !important;
+  display: block !important;
+}
+
+.document-content ol,
+.prose ol:not(.ProseMirror ol) {
+  list-style-type: decimal !important;
+  margin: 1rem 0 !important;
+  padding-inline-start: 2rem !important;
+  padding-inline-end: 0 !important;
+  display: block !important;
+}
+
+.document-content li,
+.prose li:not(.ProseMirror li) {
+  display: list-item !important;
+  margin: 0.5rem 0 !important;
+  padding: 0 !important;
+  list-style-position: outside !important;
+}
+
+.document-content li p,
+.prose li p:not(.ProseMirror li p) {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: inline !important;
+}
+
+/* Nested lists for public view */
+.document-content ul ul,
+.prose ul ul:not(.ProseMirror ul ul) {
+  list-style-type: circle !important;
+  margin: 0.5rem 0 !important;
+  padding-inline-start: 1.5rem !important;
+  padding-inline-end: 0 !important;
+}
+
+.document-content ul ul ul,
+.prose ul ul ul:not(.ProseMirror ul ul ul) {
+  list-style-type: square !important;
+}
+
+.document-content ol ol,
+.prose ol ol:not(.ProseMirror ol ol) {
+  list-style-type: lower-alpha !important;
+  margin: 0.5rem 0 !important;
+  padding-inline-start: 1.5rem !important;
+  padding-inline-end: 0 !important;
+}
+
+.document-content ol ol ol,
+.prose ol ol ol:not(.ProseMirror ol ol ol) {
+  list-style-type: lower-roman !important;
+}
+
+/* Blockquote styles for public view */
+.document-content blockquote,
+.prose blockquote:not(.ProseMirror blockquote) {
+  border-right: 4px solid #3b82f6 !important;
+  border-left: none !important;
+  margin: 1.5rem 0 !important;
+  padding: 1rem 1.5rem !important;
+  background-color: #f1f5f9 !important;
+  font-style: italic !important;
+  color: #475569 !important;
+  border-radius: 0.5rem !important;
+  position: relative !important;
+  display: block !important;
+}
+
+.document-content blockquote p,
+.prose blockquote p:not(.ProseMirror blockquote p) {
+  margin: 0 !important;
+  line-height: 1.7 !important;
+  color: inherit !important;
+}
+
+.document-content blockquote p:not(:last-child),
+.prose blockquote p:not(:last-child):not(.ProseMirror blockquote p) {
+  margin-bottom: 0.75rem !important;
+}
+
+/* Quote decoration for public view */
+.document-content blockquote::before,
+.prose blockquote:not(.ProseMirror blockquote)::before {
+  content: '❝';
+  font-size: 2rem;
+  color: #94a3b8;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  line-height: 1;
+  font-family: serif;
+}
+
+/* RTL support for public view */
+[dir="rtl"] .document-content ul,
+[dir="rtl"] .document-content ol,
+[dir="rtl"] .prose ul:not(.ProseMirror ul),
+[dir="rtl"] .prose ol:not(.ProseMirror ol) {
+  padding-right: 2rem !important;
+  padding-left: 0 !important;
+}
+
+/* Public View Alignment Overrides - Match Editor Behavior */
+.document-content ul[style*="text-align: left"],
+.document-content ol[style*="text-align: left"] {
+  direction: ltr !important;
+  text-align: left !important;
+  padding-left: 2rem !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.document-content ul[style*="text-align: right"],
+.document-content ol[style*="text-align: right"] {
+  direction: rtl !important;
+  text-align: right !important;
+  padding-right: 2rem !important;
+  padding-left: 0 !important;
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+
+[dir="rtl"] .document-content blockquote,
+[dir="rtl"] .prose blockquote:not(.ProseMirror blockquote) {
+  border-right: 4px solid #3b82f6 !important;
+  border-left: none !important;
+}
+
+[dir="rtl"] .document-content blockquote::before,
+[dir="rtl"] .prose blockquote:not(.ProseMirror blockquote)::before {
+  right: 0.5rem !important;
+  left: auto !important;
+}
+
+/* General document content styling */
+.document-content {
+  line-height: 1.7;
+  color: #374151;
+  font-family: var(--font-vazirmatn), system-ui, sans-serif;
+}
+
+.document-content>* {
+  margin-bottom: 0.75rem;
+}
+
+.document-content>*:last-child {
+  margin-bottom: 0;
+}
+
+/* Additional prose overrides for public view */
+.prose.document-content ul {
+  list-style-type: disc !important;
+  margin: 1rem 0 !important;
+  padding-right: 2rem !important;
+  padding-left: 0 !important;
+}
+
+.prose.document-content ol {
+  list-style-type: decimal !important;
+  margin: 1rem 0 !important;
+  padding-right: 2rem !important;
+  padding-left: 0 !important;
+}
+
+.prose.document-content li {
+  display: list-item !important;
+  margin: 0.5rem 0 !important;
+  list-style-position: outside !important;
+}
+
+.prose.document-content blockquote {
+  border-right: 4px solid #3b82f6 !important;
+  border-left: none !important;
+  margin: 1.5rem 0 !important;
+  padding: 1rem 1.5rem !important;
+  background-color: #f1f5f9 !important;
+  font-style: italic !important;
+  color: #475569 !important;
+  border-radius: 0.5rem !important;
+  position: relative !important;
+}
+
+/* Ensure blockquote decoration works in public view */
+.prose.document-content blockquote::before {
+  content: '❝';
+  font-size: 2rem;
+  color: #94a3b8;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  line-height: 1;
+  font-family: serif;
+}
+
+/* Headings in public view */
+.document-content h1,
+.document-content h2,
+.document-content h3,
+.document-content h4,
+.document-content h5,
+.document-content h6 {
+  font-weight: bold;
+  margin: 1.5rem 0 1rem 0;
+  line-height: 1.3;
+}
+
+.document-content h1 {
+  font-size: 2rem;
+}
+
+.document-content h2 {
+  font-size: 1.75rem;
+}
+
+.document-content h3 {
+  font-size: 1.5rem;
+}
+
+.document-content h4 {
+  font-size: 1.25rem;
+}
+
+.document-content h5 {
+  font-size: 1.125rem;
+}
+
+.document-content h6 {
+  font-size: 1rem;
+}
+
+/* Links in public view */
+.document-content a {
+  color: #3b82f6;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.document-content a:hover {
+  color: #1d4ed8;
+}
+
+/* Images in public view */
+.document-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  margin: 1rem 0;
+}
+
+/* Code in public view */
+.document-content code {
+  background-color: #f3f4f6;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.875em;
+}
+
+/* Strong and emphasis */
+.document-content strong {
+  font-weight: bold;
+}
+
+.document-content em {
+  font-style: italic;
+}
+
+.document-content u {
+  text-decoration: underline;
+}
+
+.document-content s {
+  text-decoration: line-through;
+}
