@@ -12,6 +12,12 @@ and hand out a link. Documents can be public, private, or public behind a
 password, and a user can publish a selection of them onto a profile page under
 their own username.
 
+## Demo
+
+Live instance: <https://kaghaz-online.vercel.app>
+
+Source: <https://github.com/Arshnme/kaghaz-online>
+
 ## What it does
 
 **Accounts.** Email and password sign-up with optional email confirmation, plus
@@ -42,8 +48,48 @@ documents with per-document view and like counts, plus totals across the
 profile. Owners get a tabbed editor for their display name, bio, website,
 location, avatar (uploaded with a cropping step), username and password.
 
-**At rest.** Document titles, contents, per-document passwords and attachment
-filenames are encrypted with AES-256-CBC before they reach the database.
+**At rest.** Document titles, bodies, per-document passwords and attachment
+filenames are encrypted server-side before they reach the database. Details in
+[Encryption](#encryption).
+
+## Encryption
+
+Encryption happens entirely on the server, in `lib/crypto.ts`. That module uses
+Node's built-in `crypto`, which does not exist in a browser, and every call site
+is a route handler or a Server Component. No key is ever sent to the client.
+
+| | |
+| --- | --- |
+| Algorithm | AES-256-CBC |
+| Key | SHA-256 of the `ENCRYPTION_KEY` environment variable |
+| Initialisation vector | 16 random bytes, generated fresh for every value |
+| Stored format | `<iv>:<ciphertext>`, both hex |
+
+Because the IV is random per value, encrypting the same text twice produces
+different ciphertext.
+
+Encrypted:
+
+- Document title (`documents.title`)
+- Document body (`documents.content`)
+- Per-document password (`documents.password`)
+- Attachment filename (`document_files.original_filename`)
+
+This runs in four places: creating a document, updating one, uploading an
+attachment, and reading a document back. A document's text is never written to
+the database in the clear.
+
+Not encrypted, which is worth knowing before you rely on this:
+
+- Profile fields: username, email, display name, bio, website, location
+- Document metadata: visibility, the profile-publish flag, ordering, view and
+  like counts, timestamps
+- The public document slug (`document_id`) that appears in URLs
+- Attachment contents. The files themselves sit in a private Storage bucket;
+  only their filenames are encrypted.
+
+So the text of a document is protected, its metadata is not. Encrypting the
+metadata as well would have to be added separately.
 
 ## Stack
 

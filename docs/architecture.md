@@ -93,9 +93,16 @@ consumer.
 ## Encryption at rest
 
 `lib/crypto.ts` encrypts document titles, contents, per-document passwords and
-attachment filenames with AES-256-CBC before they are written to Postgres. The
-initialisation vector is random per value and stored prepended to the
-ciphertext, separated by a colon.
+attachment filenames with AES-256-CBC before they are written to Postgres. This
+is a server-only module: it imports Node's built-in `crypto`, which does not
+exist in a browser, and every call site is a route handler or a Server
+Component. No key is ever sent to the client.
+
+The key is the SHA-256 digest of `ENCRYPTION_KEY`. Hashing it is what allows a
+key of any length to be used with a 256-bit cipher. The initialisation vector is
+16 random bytes generated per value and stored prepended to the ciphertext,
+separated by a colon, so encrypting the same text twice produces different
+output.
 
 Two deliberate properties:
 

@@ -15,11 +15,10 @@ next-env.d.ts
 
 # Environment files
 #
-# Everything that can hold a secret is ignored, including .env.local,
-# .env.development.local and .env.production.local. The example file is
-# explicitly re-included so it can be committed without any real values.
-.env
-.env.*
+# Anything starting with .env is ignored, including .env.local,
+# .env.development.local, .env.production.local and .envrc. The example file is
+# explicitly re-included so it can be committed, and it holds no real values.
+.env*
 !.env.example
 
 # Vercel
