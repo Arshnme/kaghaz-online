@@ -166,23 +166,131 @@ npm run typecheck  # tsc --noEmit
 ## Project layout
 
 ```
-app/                    App Router pages and API route handlers
-  api/                  Privileged data access
-  dashboard/            Document list
-  editor/[id]/          The editor
-  [username]/           Public profile and public documents
-components/
-  ui/                   shadcn/ui primitives
-  auth/ dashboard/ editor/ public/
-lib/                    Server-side helpers: encryption, tokens, caching, validation
-database/               SQL for schema, sample data and admin queries
-docs/                   Architecture and deployment notes
-hooks/                  React hooks
-public/                 Static assets and the web app manifest
+├── .github/
+│   └── workflows/
+│       └── ci.yml                     lint, typecheck and build on every push
+├── .vscode/
+│   └── settings.json
+├── app/
+│   ├── [username]/
+│   │   ├── [document_id]/
+│   │   │   └── page.tsx               a single public document
+│   │   ├── profile/
+│   │   │   └── page.tsx               profile page and its editor
+│   │   └── page.tsx                   public user page
+│   ├── api/
+│   │   ├── analytics/
+│   │   │   └── track/
+│   │   │       └── route.ts           stub, nothing calls it
+│   │   ├── auth/
+│   │   │   ├── cancel-signup/route.ts
+│   │   │   ├── check-email/route.ts
+│   │   │   ├── login/route.ts
+│   │   │   ├── register/route.ts
+│   │   │   └── resend-confirmation/route.ts
+│   │   ├── check-username/route.ts    implemented, nothing calls it
+│   │   ├── documents/
+│   │   │   ├── [id]/
+│   │   │   │   ├── files/route.ts     upload and list attachments
+│   │   │   │   └── route.ts           read, update and delete a document
+│   │   │   ├── verify-password/route.ts
+│   │   │   └── route.ts               create and list documents
+│   │   ├── files/
+│   │   │   └── [id]/route.ts          download and delete an attachment
+│   │   └── profile/
+│   │       ├── avatar/route.ts        upload and remove the avatar
+│   │       ├── delete/route.ts
+│   │       ├── password/route.ts
+│   │       ├── username/route.ts
+│   │       └── route.ts               read and update profile fields
+│   ├── auth/
+│   │   ├── callback/route.ts          OAuth redirect target
+│   │   └── page.tsx
+│   ├── dashboard/
+│   │   └── page.tsx
+│   ├── editor/
+│   │   └── [id]/
+│   │       └── page.tsx
+│   ├── favicon.ico
+│   ├── global-error.tsx
+│   ├── globals.css                    global styles and Tailwind variables
+│   ├── layout.tsx                     shell, metadata and the Vazirmatn font
+│   ├── loading.tsx
+│   ├── page.tsx                       sign-in and sign-up
+│   └── sitemap.ts
+├── components/
+│   ├── auth/
+│   │   └── auth-page.tsx              sign-in and sign-up form
+│   ├── dashboard/
+│   │   └── dashboard.tsx              document list, search, drag-to-reorder
+│   ├── editor/
+│   │   ├── editor.tsx                 document state and autosave
+│   │   └── tiptap-editor.tsx          the editor and its toolbar
+│   ├── public/
+│   │   ├── public-document-view.tsx
+│   │   └── user-profile.tsx
+│   └── ui/                            shadcn/ui primitives
+│       ├── alert.tsx
+│       ├── avatar.tsx
+│       ├── badge.tsx
+│       ├── button.tsx
+│       ├── card.tsx
+│       ├── dialog.tsx
+│       ├── dropdown-menu.tsx
+│       ├── input.tsx
+│       ├── label.tsx
+│       ├── loading-spinner.tsx
+│       ├── popover.tsx
+│       ├── select.tsx
+│       ├── separator.tsx
+│       ├── slider.tsx
+│       ├── switch.tsx
+│       ├── tabs.tsx
+│       ├── textarea.tsx
+│       ├── toast.tsx
+│       └── toaster.tsx
+├── database/
+│   ├── 01-schema.sql                  tables, RLS, functions, triggers, buckets
+│   ├── 02-sample-data.sql             fake data for local testing
+│   ├── 03-admin-queries.sql           inspection and maintenance queries
+│   └── README.md
+├── docs/
+│   ├── architecture.md                data model, routes, access control
+│   └── deployment.md                  setup, environment variables, hosting
+├── hooks/
+│   └── use-toast.ts
+├── lib/
+│   ├── cache.ts                       in-memory server-side cache
+│   ├── crypto.ts                      AES-256-CBC, server-side only
+│   ├── image-utils.ts                 avatar cropping
+│   ├── jwt.ts                         session token signing and verification
+│   ├── username-validation.ts         format checks and the reserved list
+│   └── utils.ts
+├── public/
+│   ├── manifest.json
+│   ├── README.md                      list of the icon files still missing
+│   └── robots.txt
+├── .editorconfig
+├── .env.example                       every variable, no real values
+├── .gitignore
+├── components.json                    shadcn/ui configuration
+├── eslint.config.mjs
+├── LICENSE
+├── middleware.ts                      session refresh and route protection
+├── next.config.mjs
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── README.fa.md
+├── README.md
+├── reserved-usernames.json            usernames that cannot be registered
+├── tailwind.config.ts
+└── tsconfig.json
 ```
 
-[Architecture](docs/architecture.md) describes the data model, the routing
-table and how the two access-control layers divide responsibility.
+90 files in total. [Architecture](docs/architecture.md) describes the data
+model, the routing table and how the two access-control layers divide
+responsibility.
 
 ## Security notes
 

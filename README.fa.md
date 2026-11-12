@@ -165,22 +165,129 @@ npm run typecheck  # بررسی نوع‌ها با tsc --noEmit
 ## ساختار پروژه
 
 ```
-app/                    صفحات App Router و route handler‌های API
-  api/                  دسترسی به داده با سطح دسترسی بالا
-  dashboard/            فهرست اسناد
-  editor/[id]/          ویرایشگر
-  [username]/           پروفایل عمومی
-components/
-  ui/                   اجزای پایه shadcn/ui
-  auth/ dashboard/ editor/ public/
-lib/                    ابزارهای سمت سرور شامل رمزنگاری، توکن، کش و اعتبارسنجی
-database/               فایل‌های SQL مربوط به ساختار و داده‌های نمونه
-docs/                   مستندات معماری و استقرار
-hooks/                  هوک‌های React
-public/                 فایل‌های ثابت و manifest
+├── .github/
+│   └── workflows/
+│       └── ci.yml                     اجرای lint و typecheck و build روی هر push
+├── .vscode/
+│   └── settings.json
+├── app/
+│   ├── [username]/
+│   │   ├── [document_id]/
+│   │   │   └── page.tsx               نمایش یک سند عمومی
+│   │   ├── profile/
+│   │   │   └── page.tsx               پروفایل کاربر و ویرایش آن
+│   │   └── page.tsx                   صفحه عمومی کاربر
+│   ├── api/
+│   │   ├── analytics/
+│   │   │   └── track/
+│   │   │       └── route.ts           پیاده‌سازی اولیه، فراخوانی نمی‌شود
+│   │   ├── auth/
+│   │   │   ├── cancel-signup/route.ts
+│   │   │   ├── check-email/route.ts
+│   │   │   ├── login/route.ts
+│   │   │   ├── register/route.ts
+│   │   │   └── resend-confirmation/route.ts
+│   │   ├── check-username/route.ts    پیاده‌شده اما فراخوانی نمی‌شود
+│   │   ├── documents/
+│   │   │   ├── [id]/
+│   │   │   │   ├── files/route.ts     بارگذاری و فهرست فایل‌های پیوست
+│   │   │   │   └── route.ts           خواندن، ویرایش و حذف سند
+│   │   │   ├── verify-password/route.ts
+│   │   │   └── route.ts               ساخت سند و فهرست اسناد
+│   │   ├── files/
+│   │   │   └── [id]/route.ts          دانلود و حذف فایل پیوست
+│   │   └── profile/
+│   │       ├── avatar/route.ts        بارگذاری و حذف تصویر پروفایل
+│   │       ├── delete/route.ts
+│   │       ├── password/route.ts
+│   │       ├── username/route.ts
+│   │       └── route.ts               خواندن و ویرایش اطلاعات پروفایل
+│   ├── auth/
+│   │   ├── callback/route.ts          مقصد بازگشت OAuth
+│   │   └── page.tsx
+│   ├── dashboard/
+│   │   └── page.tsx
+│   ├── editor/
+│   │   └── [id]/
+│   │       └── page.tsx
+│   ├── favicon.ico
+│   ├── global-error.tsx
+│   ├── globals.css                    استایل سراسری و متغیرهای Tailwind
+│   ├── layout.tsx                     چیدمان اصلی، متادیتا و فونت وزیرمتن
+│   ├── loading.tsx
+│   ├── page.tsx                       صفحه ورود و ثبت‌نام
+│   └── sitemap.ts
+├── components/
+│   ├── auth/
+│   │   └── auth-page.tsx              فرم ورود و ثبت‌نام
+│   ├── dashboard/
+│   │   └── dashboard.tsx              فهرست اسناد، جستجو و جابه‌جایی
+│   ├── editor/
+│   │   ├── editor.tsx                 منطق سند و ذخیره خودکار
+│   │   └── tiptap-editor.tsx          ویرایشگر و نوار ابزار
+│   ├── public/
+│   │   ├── public-document-view.tsx
+│   │   └── user-profile.tsx
+│   └── ui/                            اجزای پایه shadcn/ui
+│       ├── alert.tsx
+│       ├── avatar.tsx
+│       ├── badge.tsx
+│       ├── button.tsx
+│       ├── card.tsx
+│       ├── dialog.tsx
+│       ├── dropdown-menu.tsx
+│       ├── input.tsx
+│       ├── label.tsx
+│       ├── loading-spinner.tsx
+│       ├── popover.tsx
+│       ├── select.tsx
+│       ├── separator.tsx
+│       ├── slider.tsx
+│       ├── switch.tsx
+│       ├── tabs.tsx
+│       ├── textarea.tsx
+│       ├── toast.tsx
+│       └── toaster.tsx
+├── database/
+│   ├── 01-schema.sql                  جداول، RLS، توابع، تریگرها و باکت‌ها
+│   ├── 02-sample-data.sql             داده نمونه برای آزمایش
+│   ├── 03-admin-queries.sql           کوئری‌های مدیریتی و نگهداری
+│   └── README.md
+├── docs/
+│   ├── architecture.md                مدل داده، مسیرها و کنترل دسترسی
+│   └── deployment.md                  نصب، متغیرهای محیطی و استقرار
+├── hooks/
+│   └── use-toast.ts
+├── lib/
+│   ├── cache.ts                       کش در حافظه سمت سرور
+│   ├── crypto.ts                      رمزنگاری AES-256-CBC، فقط سمت سرور
+│   ├── image-utils.ts                 برش تصویر پروفایل
+│   ├── jwt.ts                         ساخت و بررسی توکن نشست
+│   ├── username-validation.ts         اعتبارسنجی و بررسی نام‌های رزروشده
+│   └── utils.ts
+├── public/
+│   ├── manifest.json
+│   ├── README.md                      فهرست آیکون‌های موجودنشده
+│   └── robots.txt
+├── .editorconfig
+├── .env.example                       نمونه متغیرهای محیطی، بدون مقدار واقعی
+├── .gitignore
+├── components.json                    تنظیمات shadcn/ui
+├── eslint.config.mjs
+├── LICENSE
+├── middleware.ts                      بررسی نشست و محافظت از مسیرها
+├── next.config.mjs
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── README.fa.md
+├── README.md
+├── reserved-usernames.json            نام‌های کاربری رزروشده
+├── tailwind.config.ts
+└── tsconfig.json
 ```
 
-جزئیات بیشتر درباره مدل داده و لایه‌های کنترل دسترسی در فایل
+در مجموع ۹۰ فایل. جزئیات بیشتر درباره مدل داده و لایه‌های کنترل دسترسی در فایل
 `docs/architecture.md` توضیح داده شده است.
 
 ## نکات امنیتی
